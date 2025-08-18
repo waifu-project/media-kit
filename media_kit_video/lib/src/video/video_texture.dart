@@ -113,12 +113,15 @@ class Video extends StatefulWidget {
   /// The callback invoked when the [Video] exits fullscreen.
   final Future<void> Function() onExitFullscreen;
 
+  final Widget? placeholder;
+
   /// {@macro video}
   const Video({
-    Key? key,
+    super.key,
     required this.controller,
     this.width,
     this.height,
+    this.placeholder,
     this.fit = BoxFit.contain,
     this.fill = const Color(0xFF000000),
     this.alignment = Alignment.center,
@@ -131,7 +134,7 @@ class Video extends StatefulWidget {
     this.subtitleViewConfiguration = const SubtitleViewConfiguration(),
     this.onEnterFullscreen = defaultEnterNativeFullscreen,
     this.onExitFullscreen = defaultExitNativeFullscreen,
-  }) : super(key: key);
+  });
 
   @override
   State<Video> createState() => VideoState();
@@ -179,6 +182,7 @@ class VideoState extends State<Video> with WidgetsBindingObserver {
   void update({
     double? width,
     double? height,
+    Widget? placeholder,
     BoxFit? fit,
     Color? fill,
     Alignment? alignment,
@@ -191,6 +195,7 @@ class VideoState extends State<Video> with WidgetsBindingObserver {
         videoViewParametersNotifier.value.copyWith(
       width: width,
       height: height,
+      placeholder: placeholder,
       fit: fit,
       fill: fill,
       alignment: alignment,
@@ -211,6 +216,7 @@ class VideoState extends State<Video> with WidgetsBindingObserver {
               VideoViewParameters(
                 width: widget.width,
                 height: widget.height,
+                placeholder: widget.placeholder,
                 fit: widget.fit,
                 fill: widget.fill,
                 alignment: widget.alignment,
@@ -240,6 +246,7 @@ class VideoState extends State<Video> with WidgetsBindingObserver {
       height: widget.height != oldWidget.height
           ? widget.height
           : currentParams.height,
+      placeholder: widget.placeholder != oldWidget.placeholder ? widget.placeholder : currentParams.placeholder,
       fit: widget.fit != oldWidget.fit ? widget.fit : currentParams.fit,
       fill: widget.fill != oldWidget.fill ? widget.fill : currentParams.fill,
       alignment: widget.alignment != oldWidget.alignment
@@ -376,6 +383,7 @@ class VideoState extends State<Video> with WidgetsBindingObserver {
             child: Stack(
               fit: StackFit.expand,
               children: [
+                videoViewParameters.placeholder ?? const SizedBox.shrink(),
                 ClipRect(
                   child: FittedBox(
                     fit: videoViewParameters.fit,

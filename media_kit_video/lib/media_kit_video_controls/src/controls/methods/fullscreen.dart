@@ -50,6 +50,7 @@ Future<void> enterFullscreen(BuildContext context) {
                         // Do not restrict the video's width & height in fullscreen mode:
                         width: null,
                         height: null,
+                        placeholder: videoViewParametersNotifierValue.value.placeholder,
                         fit: videoViewParametersNotifierValue.value.fit,
                         fill: videoViewParametersNotifierValue.value.fill,
                         alignment:

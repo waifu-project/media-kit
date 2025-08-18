@@ -20,6 +20,7 @@ import 'package:media_kit_video/src/subtitle/subtitle_view.dart';
 class VideoViewParameters {
   final double? width;
   final double? height;
+  final Widget? placeholder;
   final BoxFit fit;
   final Color fill;
   final Alignment alignment;
@@ -32,6 +33,7 @@ class VideoViewParameters {
   VideoViewParameters({
     required this.width,
     required this.height,
+    this.placeholder,
     required this.fit,
     required this.fill,
     required this.alignment,
@@ -44,6 +46,7 @@ class VideoViewParameters {
   VideoViewParameters copyWith({
     double? width,
     double? height,
+    Widget? placeholder,
     BoxFit? fit,
     Color? fill,
     Alignment? alignment,
@@ -59,6 +62,7 @@ class VideoViewParameters {
     return VideoViewParameters(
       width: width ?? this.width,
       height: height ?? this.height,
+      placeholder: placeholder ?? this.placeholder,
       fit: fit ?? this.fit,
       fill: fill ?? this.fill,
       alignment: alignment ?? this.alignment,
