@@ -2108,7 +2108,7 @@ class _BackwardSeekIndicatorState extends State<_BackwardSeekIndicator> {
               ),
               const SizedBox(height: 8.0),
               Text(
-                '${value.inSeconds} seconds',
+                '${value.inSeconds} 秒',
                 style: const TextStyle(
                   fontSize: 12.0,
                   color: Color(0xFFFFFFFF),
@@ -2197,7 +2197,7 @@ class _ForwardSeekIndicatorState extends State<_ForwardSeekIndicator> {
               ),
               const SizedBox(height: 8.0),
               Text(
-                '${value.inSeconds} seconds',
+                '${value.inSeconds} 秒',
                 style: const TextStyle(
                   fontSize: 12.0,
                   color: Color(0xFFFFFFFF),
