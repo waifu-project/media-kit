@@ -1286,10 +1286,10 @@ class _MaterialVideoControlsState extends State<_MaterialVideoControls> {
                               : EdgeInsets.zero),
                   child: Column(
                     children: [
-                      Container(
-                        height: _theme(context).buttonBarHeight,
-                        margin: _theme(context).topButtonBarMargin,
-                      ),
+                      // Container(
+                      //   height: _theme(context).buttonBarHeight,
+                      //   margin: _theme(context).topButtonBarMargin,
+                      // ),
                       Expanded(
                         child: AnimatedOpacity(
                           duration: _theme(context).controlsTransitionDuration,
@@ -1297,7 +1297,7 @@ class _MaterialVideoControlsState extends State<_MaterialVideoControls> {
                           child: _theme(context).speedUpIndicatorBuilder?.call(
                                   context, _theme(context).speedUpFactor) ??
                               Container(
-                                alignment: Alignment.topCenter,
+                                alignment: Alignment.topRight,
                                 child: Container(
                                   margin: const EdgeInsets.all(16.0),
                                   alignment: Alignment.center,
