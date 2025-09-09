@@ -921,84 +921,78 @@ class _MaterialVideoControlsState extends State<_MaterialVideoControls> {
                       top: 16.0,
                       right: 16.0,
                       bottom: 16.0,
-                      child: Listener(
-                        onPointerDown: (event) => _handlePointerDown(event),
-                        child: GestureDetector(
-                          onTapDown: (details) => _handleTapDown(details),
-                          onDoubleTapDown: _handleDoubleTapDown,
-                          onLongPress: _theme(context).speedUpOnLongPress
-                              ? _handleLongPress
-                              : null,
-                          onLongPressEnd: _theme(context).speedUpOnLongPress
-                              ? _handleLongPressEnd
-                              : null,
-                          onDoubleTap: () {
-                            if (_tapPosition == null) {
-                              return;
+                      child: GestureDetector(
+                        behavior: HitTestBehavior.opaque,
+                        onTap: onTap, // only tap-event trigger show/hide controls
+                        onDoubleTapDown: _handleDoubleTapDown,
+                        onLongPress: _theme(context).speedUpOnLongPress
+                            ? _handleLongPress
+                            : null,
+                        onLongPressEnd: _theme(context).speedUpOnLongPress
+                            ? _handleLongPressEnd
+                            : null,
+                        onDoubleTap: () {
+                          if (_tapPosition == null) {
+                            return;
+                          }
+                          if (_isInRightSegment(_tapPosition!.dx)) {
+                            if ((!mount && _theme(context).seekOnDoubleTap) ||
+                                seekOnDoubleTapEnabledWhileControlsAreVisible) {
+                              onDoubleTapSeekForward();
                             }
-                            if (_isInRightSegment(_tapPosition!.dx)) {
-                              if ((!mount && _theme(context).seekOnDoubleTap) ||
-                                  seekOnDoubleTapEnabledWhileControlsAreVisible) {
-                                onDoubleTapSeekForward();
-                              }
-                            } else {
-                              if (_isInLeftSegment(_tapPosition!.dx)) {
-                                if ((!mount &&
-                                        _theme(context).seekOnDoubleTap) ||
-                                    seekOnDoubleTapEnabledWhileControlsAreVisible) {
-                                  onDoubleTapSeekBackward();
-                                }
-                              }
+                          } else if (_isInLeftSegment(_tapPosition!.dx)) {
+                            if ((!mount && _theme(context).seekOnDoubleTap) ||
+                                seekOnDoubleTapEnabledWhileControlsAreVisible) {
+                              onDoubleTapSeekBackward();
                             }
-                          },
-                          onHorizontalDragUpdate: (details) {
-                            if ((!mount && _theme(context).seekGesture) ||
-                                (_theme(context).seekGesture &&
+                          }
+                        },
+                        onHorizontalDragUpdate: (details) {
+                          if ((!mount && _theme(context).seekGesture) ||
+                              (_theme(context).seekGesture &&
+                                  _theme(context)
+                                      .gesturesEnabledWhileControlsVisible)) {
+                            onHorizontalDragUpdate(details);
+                          }
+                        },
+                        onHorizontalDragEnd: (details) {
+                          onHorizontalDragEnd();
+                        },
+                        onVerticalDragUpdate: (e) async {
+                          final delta = e.delta.dy;
+                          final Offset position = e.localPosition;
+                                  
+                          if (position.dx <= widgetWidth(context) / 2) {
+                            // Left side of screen swiped
+                            if ((!mount && _theme(context).brightnessGesture) ||
+                                (_theme(context).brightnessGesture &&
                                     _theme(context)
                                         .gesturesEnabledWhileControlsVisible)) {
-                              onHorizontalDragUpdate(details);
-                            }
-                          },
-                          onHorizontalDragEnd: (details) {
-                            onHorizontalDragEnd();
-                          },
-                          onVerticalDragUpdate: (e) async {
-                            final delta = e.delta.dy;
-                            final Offset position = e.localPosition;
-
-                            if (position.dx <= widgetWidth(context) / 2) {
-                              // Left side of screen swiped
-                              if ((!mount &&
-                                      _theme(context).brightnessGesture) ||
-                                  (_theme(context).brightnessGesture &&
+                              final brightness = _brightnessValue -
+                                  delta /
                                       _theme(context)
-                                          .gesturesEnabledWhileControlsVisible)) {
-                                final brightness = _brightnessValue -
-                                    delta /
-                                        _theme(context)
-                                            .verticalGestureSensitivity;
-                                final result = brightness.clamp(0.0, 1.0);
-                                setBrightness(result);
-                              }
-                            } else {
-                              // Right side of screen swiped
-
-                              if ((!mount && _theme(context).volumeGesture) ||
-                                  (_theme(context).volumeGesture &&
-                                      _theme(context)
-                                          .gesturesEnabledWhileControlsVisible)) {
-                                final volume = _volumeValue -
-                                    delta /
-                                        _theme(context)
-                                            .verticalGestureSensitivity;
-                                final result = volume.clamp(0.0, 1.0);
-                                setVolume(result);
-                              }
+                                          .verticalGestureSensitivity;
+                              final result = brightness.clamp(0.0, 1.0);
+                              setBrightness(result);
                             }
-                          },
-                          child: Container(
-                            color: const Color(0x00000000),
-                          ),
+                          } else {
+                            // Right side of screen swiped
+                                  
+                            if ((!mount && _theme(context).volumeGesture) ||
+                                (_theme(context).volumeGesture &&
+                                    _theme(context)
+                                        .gesturesEnabledWhileControlsVisible)) {
+                              final volume = _volumeValue -
+                                  delta /
+                                      _theme(context)
+                                          .verticalGestureSensitivity;
+                              final result = volume.clamp(0.0, 1.0);
+                              setVolume(result);
+                            }
+                          }
+                        },
+                        child: Container(
+                          color: const Color(0x00000000),
                         ),
                       ),
                     ),
