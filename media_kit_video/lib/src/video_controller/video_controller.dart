@@ -68,9 +68,12 @@ class VideoController {
   /// [Rect] of the video output, received from the native implementation.
   final ValueNotifier<Rect?> rect = ValueNotifier<Rect?>(null);
 
+  final ValueChanged<bool>? onSpeedUpChanged;
+
   /// {@macro video_controller}
   VideoController(
     this.player, {
+      this.onSpeedUpChanged,
     VideoControllerConfiguration configuration =
         const VideoControllerConfiguration(),
   }) {

@@ -555,6 +555,7 @@ class _MaterialVideoControlsState extends State<_MaterialVideoControls> {
     });
     _currentRate = controller(context).player.state.rate;
     controller(context).player.setRate(_theme(context).speedUpFactor);
+    controller(context).onSpeedUpChanged?.call(true);
   }
 
   void _handleLongPressEnd(LongPressEndDetails details) {
@@ -562,6 +563,7 @@ class _MaterialVideoControlsState extends State<_MaterialVideoControls> {
       _speedUpIndicator = false;
     });
     controller(context).player.setRate(_currentRate);
+    controller(context).onSpeedUpChanged?.call(false);
   }
 
   @override
