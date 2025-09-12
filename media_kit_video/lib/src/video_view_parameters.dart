@@ -62,7 +62,7 @@ class VideoViewParameters {
     return VideoViewParameters(
       width: width ?? this.width,
       height: height ?? this.height,
-      placeholder: placeholder ?? this.placeholder,
+      placeholder: placeholder,
       fit: fit ?? this.fit,
       fill: fill ?? this.fill,
       alignment: alignment ?? this.alignment,
@@ -82,6 +82,7 @@ class VideoViewParameters {
           other.height == height &&
           other.fit == fit &&
           other.fill == fill &&
+          other.placeholder == placeholder &&
           other.alignment == alignment &&
           other.aspectRatio == aspectRatio &&
           other.filterQuality == filterQuality &&
@@ -94,6 +95,7 @@ class VideoViewParameters {
       height.hashCode ^
       fit.hashCode ^
       fill.hashCode ^
+      placeholder.hashCode ^
       alignment.hashCode ^
       aspectRatio.hashCode ^
       filterQuality.hashCode ^
